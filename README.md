@@ -191,6 +191,7 @@ Markers have been implemented to organize tests by module, with one marker per m
 pytest -m "normalization”
 ```
 This command will isolate all the tests that have the normalization mark on them, deselecting the 22 metrics tests that would just get in the way.
+
 ![Pytest -m "normalization" deselecting everything else](documentation/screenshots/Pytest_Demo_4.png)
 
 It is also possible to select multiple tests at once with this method by adding more modules in the command. For example:
