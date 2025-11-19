@@ -22,9 +22,16 @@ passes or fails.
 
 GROUPS = {
     # <marker>: <TITLE>,
+    "testing": "TESTING",
+    "baseline_removal": "BASELINE REMOVAL",
+    "calibration": "CALIBRATION",
+    "cosmic_ray": "COSMIC RAY",
+    "datatypes": "DATATYPES",
+    "file_io": "FILE I/O",
     "metrics": "METRICS",
     "normalization": "NORMALIZATION",
-    "testing": "TESTING",
+    "plot": "PLOT",
+    "synthetic": "SYNTHETIC",
 }
 
 _printed_groups = set()

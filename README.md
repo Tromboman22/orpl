@@ -168,9 +168,11 @@ From there, a testing environment has been set up so that you can test modules i
 pytest
 ```
 Every test will run and you will see what portion of the code works for every available module. Each green dot means that a test was successful, while an F means a fail. For each module (or rather their markers, more on that later) the name is shown in the layout.
+
 ![Pytest session test results](documentation/screenshots/Pytest_Demo_1.png)
 
 This comes with a report on what went wrong in the tests, separated by failures and warnings.
+
 ![Pytest session summary report](documentation/screenshots/Pytest_Demo_2.png)
 
 
@@ -180,6 +182,7 @@ To add further precision to the output, in case you want to see the name of the 
 pytest -v
 ```
 Every test name is shown and you can now pinpoint at what point in the file something goes wrong. For instance, a warning is given for “test__raman_snr_with_infinite” due to divisions with numpy.inf, so the completion list on the right turns yellow. Furthermore, “test_will_fail” gets a FAILED mark on the left, so we would know which part of the code breaks whenever we use pytest -v to debug errors.
+
 ![Pytest verbose gives more details](documentation/screenshots/Pytest_Demo_3.png)
 
 ### Markers
@@ -209,8 +212,8 @@ Since pytest will not print out text on code execution, you can use a command to
 pytest -v -s
 ```
 The printed output can either be placed in the testing function itself, or in the main module to see if you can even reach a certain point in your code, of you can try and see why your code might be failing by printing out an array of spectra.
-![Pytest -s example printed comment from test file](documentation/screenshots/Pytest_Demo_6.png)
 
+![Pytest -s example printed comment from test file](documentation/screenshots/Pytest_Demo_6.png)
 
 ## Coverage
 
@@ -236,6 +239,7 @@ Simply using pytest --cov does not give the full picture for what is being cover
 pytest --cov-report=html
 ```
 After calling this function, the htmlcov folder will be created, and pytest-cov will either create or update the contents of html-cov with new detailed coverage reports.
+
 ![Detailed html coverage report of a normalization.py](documentation/screenshots/Pytest_Demo_8.png)
 
 
