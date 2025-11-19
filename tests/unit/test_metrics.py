@@ -6,8 +6,8 @@ import os
 
 
 # directory path for --cov
-
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src")))
+
 
 from orpl.metrics import raman_snr, assi
 
@@ -226,7 +226,7 @@ def test_assi_output_is_accurate(synthetic_nylon_zip):
 
 @pytest.mark.metrics
 def test_assi_with_constant_array():
-    raman = np.full((6, 10), 0.5)
+    raman = np.full((6, 1000), 0.5)
     print("\nRead comments in test file", end = "")
     assert np.isnan(assi(raman))
     # Once again division by zero, function runs smoothly and breaks inside the normalization.snv() function
@@ -235,7 +235,7 @@ def test_assi_with_constant_array():
 
 @pytest.mark.metrics
 def test_assi_with_negative_constant_array():
-    raman = np.full((6, 10), -0.5)
+    raman = np.full((6, 1000), -0.5)
     print("\nRead comments in test file", end = "")
     assert np.isnan(assi(raman))
     # No flags for negative array here, code returns nan array when constant array is entered because of snv func 
@@ -244,7 +244,7 @@ def test_assi_with_negative_constant_array():
 
 @pytest.mark.metrics
 def test_assi_with_negative_constant_array():
-    raman = np.full((6, 10), 0)
+    raman = np.full((6, 1000), 0)
     print("\nRead comments in test file", end = "")
     assert np.isnan(assi(raman))
     # No flags for empty array here, code returns nan array when constant array is entered because of snv func 
