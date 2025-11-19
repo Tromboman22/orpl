@@ -214,6 +214,9 @@ For instance, to run only unit tests:
 ```
 pytest unit -m "cosmic_ray"
 ```
+
+![Pytest -s example printed comment from test file](documentation/screenshots/Pytest_Demo_9.png)
+
 To run only performance tests:
 ```
 pytest performance -m "cosmic_ray"
