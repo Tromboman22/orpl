@@ -40,47 +40,43 @@ _printed_groups = set()
 # pytest calls this function automatically and runs it at the start of each test because it is part of the conftest.py hook file
 
 
-# Arguments and their contents 
-# session: contains all test items that are collected at startup, 
-# config: links to all hook files 
+# Arguments and their contents
+# session: contains all test items that are collected at startup,
+# config: links to all hook files
 # items: is a lists containing pytest.Item objects
+
 
 def pytest_collection_modifyitems(session, config, items):
     # Reorder tests: metrics first, then normalization, then the rest
     grouped_tests = []
     deselected = []
-    # for marker in GROUPS:
-    #     grouped_tests.extend([item for item in items if marker in item.keywords])
-
 
     for marker in GROUPS:
         for item in items:
-            if(marker in item.keywords):
+            if marker in item.keywords:
                 grouped_tests.append(item)
             else:
                 deselected.append(item)
 
-
     # Any tests without a known marker go at the end
-    others = [item for item in items
-              if not any(marker in item.keywords for marker in GROUPS)]
-    items[:] = grouped_tests + others   # used to include both marked and unmarked tests
+    others = [
+        item for item in items if not any(marker in item.keywords for marker in GROUPS)
+    ]
+    items[:] = grouped_tests + others  # used to include both marked and unmarked tests
 
 
 # Arguments and their content
 # item: pytest.Item
 # nextitem: pytest.Item or None
 
+
 def pytest_runtest_protocol(item, nextitem):
     global _printed_groups
 
     for marker, header in GROUPS.items():
         if marker in item.keywords and marker not in _printed_groups:
-            print(f"\n\n{header}", end = '')
+            print(f"\n\n{header}", end="")
             _printed_groups.add(marker)
             break  # stop after the first matching group
 
     return None
-
-
-

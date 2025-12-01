@@ -4,9 +4,10 @@ import sys
 import os
 
 
-
 # directory path for --cov
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src")))
+sys.path.insert(
+    0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../src"))
+)
 
 
 from orpl.normalization import minmax, maxband, snv, auc
@@ -14,16 +15,19 @@ from orpl.normalization import minmax, maxband, snv, auc
 
 # fixtures
 
+
 @pytest.fixture(scope="module")
 def gen_synthetic_nylon():  # gen_slist from demo #4
     from orpl.synthetic import gen_synthetic_spectrum
+
     ratios = [0.5, 0.35]
     noiselvls = [0.01, 0.03, 0.05]
     slist = []
     for rf_ratio in ratios:
         for noise in noiselvls:
-            s,r,b,n = gen_synthetic_spectrum('nylon', rf_ratio, noise,
-                                              baseline_preset='aluminium')
+            s, r, b, n = gen_synthetic_spectrum(
+                "nylon", rf_ratio, noise, baseline_preset="aluminium"
+            )
             slist.append((s))
     return slist
 
@@ -34,15 +38,14 @@ def synthetic_nylon_np_array(gen_synthetic_nylon):
     return signal
 
 
-
 """
 normalization.py normalization module 
 
 """
 
 
-
 # 1. minmax
+
 
 @pytest.mark.normalization
 def test_minmax_fails_with_no_input():
@@ -52,14 +55,16 @@ def test_minmax_fails_with_no_input():
 
 @pytest.mark.normalization
 def test_minmax_catch_invalid_input(gen_synthetic_nylon):
-    with pytest.raises(AttributeError) as e: # Incorrect call returns attribute error
+    with pytest.raises(AttributeError) as e:  # Incorrect call returns attribute error
         minmax("invalid input"), (f"Error was not caugut by the system: {e}")
     # try with ragular list instead of np.ndarray
     with pytest.raises(AttributeError) as e:
         minmax(gen_synthetic_nylon), (f"Error was not caugut by the system: {e}")
     # try multiple correct inputs
     with pytest.raises(TypeError) as e:
-        minmax(synthetic_nylon_np_array, synthetic_nylon_np_array), (f"Error was not caugut by the system: {e}")
+        minmax(synthetic_nylon_np_array, synthetic_nylon_np_array), (
+            f"Error was not caugut by the system: {e}"
+        )
 
 
 @pytest.mark.normalization
@@ -100,6 +105,7 @@ def test_minmax_all_zeros_input():
     assert np.all(np.isnan(signal_minmax))  # should return all nan array
     print("\nneeds failsafe?")
 
+
 @pytest.mark.normalization
 def test_minmax_constant_array_input():
     signal = np.full((5, 100), 7.0)
@@ -112,13 +118,15 @@ def test_minmax_constant_array_input():
 def test_minmax_negative_value(synthetic_nylon_np_array):
     signal = synthetic_nylon_np_array
     for i in range(signal.shape[0]):
-        signal[np.random.randint(0,signal.shape[0])][np.random.randint(0,signal.shape[1])] = -7 * np.random.default_rng().random()
+        signal[np.random.randint(0, signal.shape[0])][
+            np.random.randint(0, signal.shape[1])
+        ] = (-7 * np.random.default_rng().random())
         signal_minmax = minmax(signal)
         assert np.all(np.isfinite(signal_minmax))  # should return all nan array
-        
 
 
 # 2. maxband
+
 
 @pytest.mark.normalization
 def test_maxband_fails_with_no_input():
@@ -128,7 +136,7 @@ def test_maxband_fails_with_no_input():
 
 @pytest.mark.normalization
 def test_maxband_catch_invalid_input(gen_synthetic_nylon, synthetic_nylon_np_array):
-    with pytest.raises(AttributeError) as e: # Incorrect call returns attribute error
+    with pytest.raises(AttributeError) as e:  # Incorrect call returns attribute error
         maxband("invalid input", 1), (f"Error was not caugut by the system: {e}")
     # try with ragular list instead of np.ndarray
     with pytest.raises(AttributeError) as e:
@@ -142,7 +150,9 @@ def test_maxband_catch_invalid_input(gen_synthetic_nylon, synthetic_nylon_np_arr
         maxband(signal[0], 10000), (f"Error was not caugut by the system: {e}")
     # try multiple correct inputs
     with pytest.raises(TypeError) as e:
-        maxband(synthetic_nylon_np_array, 3, 4), (f"Error was not caugut by the system: {e}")
+        maxband(synthetic_nylon_np_array, 3, 4), (
+            f"Error was not caugut by the system: {e}"
+        )
 
 
 @pytest.mark.normalization
@@ -193,15 +203,17 @@ def test_maxband_constant_array_input():
 
 @pytest.mark.normalization
 def test_maxband_negative_value(synthetic_nylon_np_array):
-    signal = synthetic_nylon_np_array 
+    signal = synthetic_nylon_np_array
     for i in range(signal.shape[0]):
-        signal[i][np.random.randint(0,signal.shape[1])] = -7 * np.random.default_rng().random()
+        signal[i][np.random.randint(0, signal.shape[1])] = (
+            -7 * np.random.default_rng().random()
+        )
         signal_minmax = minmax(signal[i])
         assert np.all(np.isfinite(signal_minmax))  # should return all nan array
 
 
-
 # 3. snv
+
 
 @pytest.mark.normalization
 def test_snv_fails_with_no_input():
@@ -211,14 +223,16 @@ def test_snv_fails_with_no_input():
 
 @pytest.mark.normalization
 def test_snv_catch_invalid_input(gen_synthetic_nylon, synthetic_nylon_np_array):
-    with pytest.raises(AttributeError) as e: # Incorrect call returns attribute error
+    with pytest.raises(AttributeError) as e:  # Incorrect call returns attribute error
         snv("invalid input"), (f"Error was not caugut by the system: {e}")
     # try with ragular list instead of np.ndarray
     with pytest.raises(AttributeError) as e:
         snv(gen_synthetic_nylon), (f"Error was not caugut by the system: {e}")
     # try multiple correct inputs
     with pytest.raises(TypeError) as e:
-        snv(synthetic_nylon_np_array, synthetic_nylon_np_array), (f"Error was not caugut by the system: {e}")
+        snv(synthetic_nylon_np_array, synthetic_nylon_np_array), (
+            f"Error was not caugut by the system: {e}"
+        )
 
 
 @pytest.mark.normalization
@@ -272,13 +286,15 @@ def test_snv_constant_array_input():
 def test_snv_negative_value(synthetic_nylon_np_array):
     signal = synthetic_nylon_np_array
     for i in range(signal.shape[0]):
-        signal[np.random.randint(0,signal.shape[0])][np.random.randint(0,signal.shape[1])] = -7 * np.random.default_rng().random()
+        signal[np.random.randint(0, signal.shape[0])][
+            np.random.randint(0, signal.shape[1])
+        ] = (-7 * np.random.default_rng().random())
         signal_snv = snv(signal)
         assert np.all(np.isfinite(signal_snv))  # should return all nan array
 
 
-
 # 4. auc
+
 
 @pytest.mark.normalization
 def test_auc_fails_with_no_input():
@@ -288,15 +304,17 @@ def test_auc_fails_with_no_input():
 
 @pytest.mark.normalization
 def test_auc_catch_invalid_input(gen_synthetic_nylon, synthetic_nylon_np_array):
-    with pytest.raises(AttributeError) as e: # Incorrect call returns attribute error
+    with pytest.raises(AttributeError) as e:  # Incorrect call returns attribute error
         auc("invalid input"), (f"Error was not caugut by the system: {e}")
     # try with ragular list instead of np.ndarray
     with pytest.raises(AttributeError) as e:
         auc(gen_synthetic_nylon), (f"Error was not caugut by the system: {e}")
     # try multiple correct inputs
     with pytest.raises(TypeError) as e:
-        auc(synthetic_nylon_np_array, synthetic_nylon_np_array), (f"Error was not caugut by the system: {e}")
-    
+        auc(synthetic_nylon_np_array, synthetic_nylon_np_array), (
+            f"Error was not caugut by the system: {e}"
+        )
+
 
 @pytest.mark.normalization
 def test_auc_correct_type(synthetic_nylon_np_array):
@@ -349,12 +367,11 @@ def test_auc_constant_array_input():
 def test_auc_negative_value(synthetic_nylon_np_array):
     signal = synthetic_nylon_np_array
     for i in range(signal.shape[0]):
-        signal[np.random.randint(0,signal.shape[0])][np.random.randint(0,signal.shape[1])] = -7 * np.random.default_rng().random()
+        signal[np.random.randint(0, signal.shape[0])][
+            np.random.randint(0, signal.shape[1])
+        ] = (-7 * np.random.default_rng().random())
         signal_auc = auc(signal)
         assert np.all(np.isfinite(signal_auc))  # should return all nan array
-
-
-
 
 
 """

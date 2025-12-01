@@ -279,7 +279,7 @@ def autogenx(signal: np.ndarray, preset: str = "tylenol", deg: int = 2) -> np.nd
 
     # Compute xaxis for npeaks combinations in preset peak lists
     # Selecting 5 peaks among the preset's 7 seems good for now, might need to change
-    # for something more systematic later... #TODO?
+    # for something more systematic later... #TODO? 
     npeaks = 5
     axises = []
     residuals = []

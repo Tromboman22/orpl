@@ -141,23 +141,11 @@ Different smallest bubble widths can be specified for different regions of the s
 
 ## Pytest
 
-### Installing Pytest
+The testing framework used for this project is [pytest](https://docs.pytest.org)
 
-Pytest is a python extension that facilitates testing with features such as automatic test discovery, fixtures, parameterization (markers and config) and additional extensions such as pytest-cov. 
-
-Pytest should be installed in your virtual environment using pip:
+Pytest and its extensions should be installed in your virtual environment using pip:
 ```
-pip install pytest
-```
-
-Same goes for pytest-cov:
-```
-pip install pytest-cov
-```
-
-And also for pytest-timeout:
-```
-pip install pytest-timeout
+pip install pytest pytest-cov pytest-timeout
 ```
 
 ### Testing Code:
@@ -319,4 +307,4 @@ URL = {https://doi.org/10.1117/1.JBO.28.2.025002}
 - **Frédérick Dallaire**
 - **Fabien Picot**
 - **Samuel Pineau**
-"# orpl-backup" 
+

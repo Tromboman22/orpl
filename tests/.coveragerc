@@ -1,12 +1,12 @@
 [run]
-source = ../src/orpl
+source = src/orpl
 omit = 
     */__init__.py
 
 
 
 [report]
-source = ../src/orpl
+source = src/orpl
 omit = 
     */__init__.py
     */__main__.py
