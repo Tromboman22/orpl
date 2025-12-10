@@ -102,3 +102,54 @@ def test_raman_snr_negative_values_spectra():
     raman = np.full((6, 1000), -1)
     baseline = raman
     assert np.all(np.isnan(raman_snr(raman, baseline, 1.0, 10.0)))
+
+
+# 2. assi
+
+
+@pytest.mark.metrics
+def test_assi_catches_absence_of_inputs():
+    with pytest.raises(TypeError) as e:
+        assi(), (f"Error not caught by system: {e}")
+
+
+@pytest.mark.metrics
+def test_assi_catch_invalid_input():
+    with pytest.raises(AttributeError) as e:
+        assi("invalid"), (f"Error not caught by system: {e}")
+    with pytest.raises(AttributeError) as e:
+        assi([1, 2, 3]), (f"Error not caught by system: {e}")
+
+
+@pytest.mark.metrics
+def test_assi_output_type(synthetic_nylon_zip):
+    raman, baseline = synthetic_nylon_zip
+    assert type(assi(raman)) == np.float64
+
+
+@pytest.mark.metrics
+def test_assi_output_is_within_bounds(synthetic_nylon_zip):
+    raman, baseline = synthetic_nylon_zip
+    for i in range(raman.shape[0]):
+        test_val = assi(raman[i])
+        # check bounds
+        assert test_val > -1.0, f"Assi returns float smaller than -1"
+        assert test_val < 1.0, f"Assi returns float larger than 1"
+
+
+@pytest.mark.metrics
+def test_assi_with_constant_array():
+    raman = np.full((6, 1000), 0.5)
+    assert np.isnan(assi(raman))
+
+
+@pytest.mark.metrics
+def test_assi_with_negative_constant_array():
+    raman = np.full((6, 1000), -0.5)
+    assert np.isnan(assi(raman))
+
+
+@pytest.mark.metrics
+def test_assi_with_negative_constant_array():
+    raman = np.full((6, 1000), 0)
+    assert np.isnan(assi(raman))
