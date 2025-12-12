@@ -28,10 +28,12 @@ where = ["src"]
 
 [project.optional-dependencies]
 dev = [
-  "pytest"
+  "pytest",
+  "pytest-cov"
 ]
 
 [tool.pytest.ini_options]
+addopts = "--cov-config=tests/.coveragerc"
 markers = [
     "testing: Isolate tests to either check specific functions or tweak the test code without running the entire module.",
     "baseline_removal: Mark a test as part of the baseline_removal module. Its functions filter out noise from input spectra.",
